@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Well Do You Know Chidera? — Hard Level</title>
+
+<style>
+:root {
+    --blue: #8f2040;
+    --dark: #64152d;
+    --light: #fff0f3;
+    --cyan: #f3a6b8;
+    --white: #fff9f2;
+    --beige: #fff1d6;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background:
+        radial-gradient(circle at 10% 15%, #f3a6b844 0 3px, transparent 4px),
+        radial-gradient(circle at 90% 25%, #8f204022 0 4px, transparent 5px),
+        linear-gradient(135deg, #fff1d6, #fff0f3 60%, #ffe4eb);
+    background-size: 100px 100px, 140px 140px, auto;
+    color: #5a2334;
+}
+
+header {
+    background: linear-gradient(135deg, #64152d, #a82e50 70%, #8f2040);
+    color: #fff9f2;
+    text-align: center;
+    padding: 40px 15px;
+    border-bottom: 5px solid var(--cyan);
+    position: relative;
+    overflow: hidden;
+}
+
+header h1 {
+    font-size: clamp(25px, 5vw, 42px);
+    margin: 0;
+    text-shadow: 3px 3px 0 #64152d;
+    animation: popIn .65s ease-out;
+}
+
+header p { color: #fff1d6; }
+
+.badge {
+    display: inline-block;
+    padding: 9px 18px;
+    margin-top: 12px;
+    background: var(--cyan);
+    color: #64152d;
+    border-radius: 30px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 12px;
+    box-shadow: 0 5px 0 #64152d44;
+    transform: rotate(-2deg);
+}
+
+.container { max-width: 850px; margin: 30px auto; padding: 0 15px; }
+
+.panel {
+    background: var(--white);
+    border: 1px solid #f3c4d0;
+    border-radius: 18px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 25px #8f204018;
+    transition: transform .2s, box-shadow .2s;
+}
+
+.intro { text-align: center; line-height: 1.7; }
+h2 { color: var(--dark); }
+
+.rules {
+    text-align: left;
+    background: #fff1d6;
+    color: #5a2334;
+    border-left: 5px solid var(--cyan);
+    border-radius: 8px;
+    padding: 15px;
+    line-height: 1.8;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 13px;
+    margin-top: 10px;
+    background: #fffdf9;
+    color: #5a2334;
+    border: 1px solid #e8a0b4;
+    border-radius: 9px;
+    font-size: 16px;
+}
+input[type="text"]::placeholder { color: #a67886; }
+
+.stats { display: flex; gap: 10px; flex-wrap: wrap; }
+.stat {
+    flex: 1;
+    min-width: 100px;
+    background: #ffe4eb;
+    color: #5a2334;
+    padding: 13px 8px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #f3c4d0;
+}
+.stat strong { display: block; font-size: 21px; color: var(--dark); margin-bottom: 5px; }
+
+.progress-track { height: 9px; background: #f7d8e1; border-radius: 10px; overflow: hidden; margin: 20px 0; }
+.progress { height: 100%; width: 0; background: linear-gradient(90deg, #8f2040, #d94f70); transition: width .3s; }
+
+.question { padding: 20px 0; border-bottom: 1px solid #f3c4d0; }
+.question h3 { font-size: 17px; line-height: 1.5; color: #5a2334; }
+.number { color: var(--dark); }
+
+.option {
+    display: flex;
+    gap: 10px;
+    padding: 13px;
+    margin: 9px 0;
+    background: #fffdf9;
+    color: #5a2334;
+    border: 1px solid #f3c4d0;
+    border-radius: 10px;
+    cursor: pointer;
+    line-height: 1.5;
+    transition: background .2s, border-color .2s, transform .2s;
+}
+.option:hover { background: #fff0f3; border-color: var(--cyan); transform: translateX(3px); }
+.option:has(input:checked) { background: #ffe0e8; border-color: var(--blue); box-shadow: 0 0 0 2px #f3a6b844; }
+.option input { accent-color: var(--blue); margin-top: 4px; }
+
+button {
+    border: none;
+    border-radius: 9px;
+    padding: 14px 20px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .2s;
+    box-shadow: 0 4px 0 #8f204022;
+}
+button:hover { transform: translateY(-2px) rotate(-.5deg); }
+.primary { background: var(--blue); color: #fff9f2; }
+.primary:hover { background: #741832; }
+.secondary { background: var(--cyan); color: #64152d; }
+.secondary:hover { background: #e98ba3; }
+.button-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+.hidden { display: none !important; }
+#result { text-align: center; }
+
+.score-circle {
+    width: 150px;
+    height: 150px;
+    margin: 25px auto;
+    border: 7px solid var(--cyan);
+    border-radius: 50%;
+    background: #fff1d6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.score-circle strong { color: var(--dark); font-size: 34px; }
+
+.review-item { text-align: left; padding: 15px; margin: 12px 0; border-radius: 10px; line-height: 1.6; overflow-wrap: anywhere; }
+.correct { background: #e4f5e9; border-left: 5px solid #24834a; }
+.incorrect { background: #ffe4eb; border-left: 5px solid #c02d50; }
+#feedback { color: var(--dark); font-size: 21px; font-weight: bold; }
+footer { text-align: center; padding: 25px; color: #8f5265; font-size: 13px; }
+
+@media(max-width: 500px) { .panel { padding: 17px; } }
+@keyframes popIn {
+    from { opacity: 0; transform: translateY(12px) scale(.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.panel:hover { box-shadow: 0 12px 30px #8f204026; }
+
+
+/* LAYOUT REFRESH ONLY — existing colours and quiz logic are unchanged */
+.container {
+    max-width: 1040px;
+    margin: 38px auto 48px;
+    padding: 0 22px;
+}
+
+header {
+    min-height: 250px;
+    padding: 58px 22px 52px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+header h1 {
+    max-width: 900px;
+    line-height: 1.12;
+    letter-spacing: 1.5px;
+}
+
+header p {
+    max-width: 560px;
+    margin: 16px auto 8px;
+    line-height: 1.65;
+}
+
+.panel {
+    border-radius: 24px;
+    padding: clamp(22px, 4vw, 36px);
+    margin-bottom: 26px;
+}
+
+.intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(260px, .9fr);
+    column-gap: 34px;
+    row-gap: 12px;
+    align-items: center;
+    text-align: left;
+}
+
+.intro h2 {
+    grid-column: 1 / -1;
+    margin: 0 0 4px;
+    font-size: clamp(25px, 3vw, 32px);
+    line-height: 1.2;
+}
+
+.intro > p { margin: 0; }
+
+.intro .rules {
+    grid-column: 2;
+    grid-row: 2 / span 2;
+    margin: 0;
+    padding: 20px 22px;
+}
+
+.intro br { display: none; }
+
+.intro label,
+.intro input,
+.intro .button-row {
+    grid-column: 1;
+}
+
+.intro label { align-self: end; margin-top: 12px; }
+.intro input { margin-top: -5px; }
+.intro .button-row { justify-content: flex-start !important; margin-top: 8px; }
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.stat {
+    padding: 18px 12px;
+    border-radius: 16px;
+}
+
+.stat strong { font-size: 25px; }
+
+#quizForm { padding-top: 10px; }
+
+.question {
+    padding: 24px 0 28px;
+}
+
+.question h3 {
+    font-size: 18px;
+    margin: 0 0 16px;
+}
+
+.question .option {
+    min-height: 50px;
+    align-items: flex-start;
+    padding: 15px 16px;
+}
+
+@media (min-width: 760px) {
+    .question {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 18px;
+        align-items: start;
+    }
+
+    .question h3 {
+        grid-column: 1 / -1;
+    }
+
+    .question .option { margin: 6px 0; }
+}
+
+.button-row button {
+    min-height: 48px;
+}
+
+#quizForm .button-row {
+    position: sticky;
+    bottom: 12px;
+    z-index: 5;
+    background: #fff9f2ee;
+    border: 1px solid #f3c4d0;
+    border-radius: 16px;
+    padding: 12px;
+    backdrop-filter: blur(10px);
+}
+
+#result {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: clamp(26px, 5vw, 48px);
+}
+
+.score-circle {
+    width: 175px;
+    height: 175px;
+    box-shadow: 0 8px 24px #8f204020;
+}
+
+@media (max-width: 650px) {
+    .container { padding: 0 13px; margin-top: 20px; }
+    header { min-height: 220px; padding: 42px 16px; }
+    .intro { display: block; text-align: center; }
+    .intro h2 { margin-bottom: 12px; }
+    .intro .rules { margin: 20px 0; }
+    .intro .button-row { justify-content: center !important; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .stat:last-child { grid-column: 1 / -1; }
+    #quizForm .button-row { bottom: 6px; }
+    .button-row button { flex: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>HOW WELL DO YOU KNOW CHIDERA?</h1>
+    <p>Think you know everything? Let's find out. 💜</p>
+    <div class="badge">HARD LEVEL • 25 QUESTIONS</div>
+</header>
+
+<main class="container">
+
+<section class="panel intro" id="intro">
+    <h2>Welcome to Chidera's World 💜</h2>
+
+    <p>
+        This challenge is for people who claim to know Chidera
+        inside out. Let's see if you actually do.
+    </p>
+
+    <div class="rules">
+        <strong>THE RULES</strong><br>
+        • 25 multiple-choice questions.<br>
+        • You have 16 minutes.<br>
+        • Your score stays hidden until submission.<br>
+        • Every correct answer earns one point.<br>
+        • Unanswered questions earn zero points.
+    </div>
+
+    <br>
+
+    <label for="playerName"><strong>Enter your name:</strong></label>
+    <input id="playerName" type="text" maxlength="30"
+           placeholder="Your name here">
+
+    <div class="button-row" style="justify-content:center">
+        <button class="primary" onclick="startQuiz()">
+            START THE CHALLENGE →
+        </button>
+    </div>
+</section>
+
+<section id="quizSection" class="hidden">
+
+    <div class="panel">
+        <div class="stats">
+            <div class="stat">
+                <strong id="questionCount">0/25</strong>
+                Answered
+            </div>
+            <div class="stat">
+                <strong id="timer">16:00</strong>
+                Time left
+            </div>
+            <div class="stat">
+                <strong>HARD</strong>
+                Difficulty
+            </div>
+        </div>
+
+        <div class="progress-track">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <p class="rules">
+            Choose carefully 👀 No answer spoilers after submission — only your score and your bragging rights 😈
+        </p>
+    </div>
+
+    <form id="quizForm" class="panel">
+        <div id="questions"></div>
+
+        <div class="button-row">
+            <button type="submit" class="primary">
+                SUBMIT MY ANSWERS
+            </button>
+            <button type="button" class="secondary"
+                    onclick="confirmReset()">
+                RESTART
+            </button>
+        </div>
+    </form>
+</section>
+
+<section id="result" class="panel hidden">
+    <h2>THE RESULTS ARE IN! 🎉</h2>
+    <p>Let's see if you really know Chidera like that 😎</p>
+    <p id="playerGreeting"></p>
+
+    <div class="score-circle">
+        <strong id="finalScore">0/25</strong>
+        <span id="percentage">0%</span>
+    </div>
+
+    <p id="feedback"></p>
+    <p id="resultMessage"></p>
+
+    <div class="button-row" style="justify-content:center">
+        <button class="primary" onclick="playAgain()">
+            PLAY AGAIN
+        </button>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    THE CHIDERA CHALLENGE 💜<br>
+    25 questions. One Chidera. Do you know her?
+</footer>
+
+<script>
+const quizData = [
+    {
+        q: "How long does it take Chidera to forgive someone who offends her?",
+        options: ["Five minutes", "One day", "Until they apologise", "Infinity"],
+        answer: 3
+    },
+    {
+        q: "How often does Chidera talk about her emotions?",
+        options: [
+            "Every day",
+            "Only with close friends",
+            "Whenever she is sad",
+            "She is actually heartless"
+        ],
+        answer: 3
+    },
+    {
+        q: "What is Chidera's most-used phrase?",
+        options: [
+            "Abeg, leave me",
+            "Omo, I'm tired",
+            "God when?",
+            "It's not that deep"
+        ],
+        answer: 1
+    },
+    {
+        q: "What are Chidera's love languages?",
+        options: [
+            "Gift giving and acts of service",
+            "Physical touch and gift giving",
+            "Everything, asin all in all",
+            "Acts of service and physical touch"
+        ],
+        answer: 2
+    },
+    {
+        q: "What would Chidera be doing on a free Saturday?",
+        options: [
+            "Sleeping all day",
+            "Studying all day",
+            "Going out with friends",
+            "Anything she feels like"
+        ],
+        answer: 3
+    },
+    {
+        q: "What might Chidera do for you only when she likes you as a person?",
+        options: [
+            "Buy you gifts",
+            "Help you out in an exam or test",
+            "Tell you every secret",
+            "Give you her favourite book"
+        ],
+        answer: 1
+    },
+    {
+        q: "Who makes Chidera laugh the most?",
+        options: [
+            "Her friends",
+            "Her siblings",
+            "A certain somebody",
+            "Funny videos"
+        ],
+        answer: 2
+    },
+    {
+        q: "What is Chidera's worst subject?",
+        options: ["F.maths", "Chemistry", "Physics", "Maths"],
+        answer: 3
+    },
+    {
+        q: "What is Chidera's favourite drink?",
+        options: [
+            "malttt",
+            "NutriMilk jor",
+            "coke na",
+            "Fanta"
+        ],
+        answer: 1
+    },
+    {
+        q: "What does Chidera call someone who is unserious?",
+        options: ["Ode", "NFA", "olodo", "werey"],
+        answer: 1
+    },
+    {
+        q: "What does Chidera do when she's angry?",
+        options: [
+            "Starts arguing",
+            "Cries immediately",
+            "Ignores you",
+            "Laughs it off"
+        ],
+        answer: 2
+    },
+    {
+        q: "What does Chidera want to achieve this school session?",
+        options: [
+            "Become class prefect",
+            "First position",
+            "Win a debate",
+            "Finish every book she owns"
+        ],
+        answer: 1
+    },
+    {
+        q: "Which musical instrument can Chidera play?",
+        options: ["Guitar", "Drums", "Piano", "Violin"],
+        answer: 2
+    },
+    {
+        q: "Can Chidera open a car door?",
+        options: [
+            "Of course, effortlessly",
+            "Only with help",
+            "She wish",
+            "She refuses to try"
+        ],
+        answer: 2
+    },
+    {
+        q: "What does Chidera love doing all the time?",
+        options: ["Eating", "Singing and dancing", "Cooking", "sleeping"],
+        answer: 1
+    },
+    {
+        q: "What must Chidera say while singing?",
+        options: [
+            "Sing flawlessly",
+            "Daddy mehh (in an angelic Igbo accent)",
+            "coughh",
+            "Laugh"
+        ],
+        answer: 1
+    },
+    {
+        q: "Which pair of words best describes Chidera?",
+        options: [
+            "Quiet but shy",
+            "Crazy but smart",
+            "Serious but boring",
+            "calm but lazy"
+        ],
+        answer: 1
+    },
+    {
+        q: "What can make Chidera instantly dislike a guy?",
+        options: [
+            "Bad fashion",
+            "Being too quiet",
+            "Body odour",
+            "Liking different music"
+        ],
+        answer: 2
+    },
+    {
+        q: "What is something Chidera would never allow to happen?",
+        options: [
+            "Missing a party",
+            "Getting an F",
+            "Losing a book",
+            "Missing a movie"
+        ],
+        answer: 1
+    },
+    {
+        q: "What is Chidera's relationship status?",
+        options: [
+            "Single asf",
+            "Married sha",
+            "Taken",
+            "It's complicated"
+        ],
+        answer: 1
+    },
+    {
+        q: "What would make Chidera smile when she's angry?",
+        options: ["Space", "An apology", "Moneyyy", "Chocolate"],
+        answer: 2
+    },
+    {
+        q: "What is one thing Chidera loves most about herself?",
+        options: [
+            "Her intelligence",
+            "Her singing voice",
+            "Her sense of humour",
+            "Her fat asssss"
+        ],
+        answer: 3
+    },
+    {
+        q: "What is a word Chidera says instead of 'party'?",
+        options: [
+            "Obleee",
+            "Im outsidee",
+            "Omo",
+            "Party"
+        ],
+        answer: 0
+    },
+    {
+        q: "What is something that is most often Chidera's profile picture (PFP)?",
+        options: [
+            "Anyhow dogs",
+            "Cute cats",
+            "Her own picture",
+            "Cartoon characters"
+        ],
+        answer: 0
+    },
+    {
+        q: "What is Chidera's 'most often told' lie?",
+        options: [
+            "I'm not hungry",
+            "I finished my food",
+            "I'm almost there",
+            "I have already studied"
+        ],
+        answer: 1
+    }
+];
+
+let timeLeft = 960;
+let timerInterval = null;
+let submitted = false;
+
+const quizForm = document.getElementById("quizForm");
+
+function startQuiz() {
+    const name = document.getElementById("playerName").value.trim();
+
+    if (!name) {
+        alert("Please enter your name first!");
+        document.getElementById("playerName").focus();
+        return;
+    }
+
+    submitted = false;
+    timeLeft = 960;
+
+    document.getElementById("intro").classList.add("hidden");
+    document.getElementById("result").classList.add("hidden");
+    document.getElementById("quizSection").classList.remove("hidden");
+
+    renderQuestions();
+    updateProgress();
+    updateTimerDisplay();
+
+    clearInterval(timerInterval);
+
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert("Time is up! Your answers will be submitted.");
+            submitQuiz();
+        }
+    }, 1000);
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderQuestions() {
+    const container = document.getElementById("questions");
+    container.innerHTML = "";
+
+    quizData.forEach((item, index) => {
+        const section = document.createElement("section");
+        section.className = "question";
+
+        const heading = document.createElement("h3");
+        const number = document.createElement("span");
+        number.className = "number";
+        number.textContent = `${index + 1}. `;
+
+        heading.appendChild(number);
+        heading.appendChild(document.createTextNode(item.q));
+        section.appendChild(heading);
+
+        item.options.forEach((option, optionIndex) => {
+            const label = document.createElement("label");
+            label.className = "option";
+
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `q${index}`;
+            radio.value = optionIndex;
+            radio.addEventListener("change", updateProgress);
+
+            const text = document.createElement("span");
+            text.textContent = option;
+
+            label.append(radio, text);
+            section.appendChild(label);
+        });
+
+        container.appendChild(section);
+    });
+}
+
+function updateProgress() {
+    let answered = 0;
+
+    quizData.forEach((item, index) => {
+        if (document.querySelector(`input[name="q${index}"]:checked`)) {
+            answered++;
+        }
+    });
+
+    document.getElementById("questionCount").textContent =
+        `${answered}/${quizData.length}`;
+
+    document.getElementById("progress").style.width =
+        `${answered / quizData.length * 100}%`;
+}
+
+function updateTimerDisplay() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+
+    document.getElementById("timer").textContent =
+        `${String(minutes).padStart(2, "0")}:` +
+        `${String(seconds).padStart(2, "0")}`;
+
+    document.getElementById("timer").style.color =
+        timeLeft <= 60 ? "#c02d50" : "";
+}
+
+quizForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    if (submitted) return;
+
+    let unanswered = 0;
+
+    quizData.forEach((item, index) => {
+        if (!document.querySelector(`input[name="q${index}"]:checked`)) {
+            unanswered++;
+        }
+    });
+
+    if (unanswered > 0) {
+        if (!confirm(
+            `You have ${unanswered} unanswered question(s). ` +
+            "They will score zero. Submit anyway?"
+        )) {
+            return;
+        }
+    }
+
+    submitQuiz();
+});
+
+function submitQuiz() {
+    if (submitted) return;
+
+    submitted = true;
+    clearInterval(timerInterval);
+
+    let score = 0;
+
+    quizData.forEach((item, index) => {
+        const selected = document.querySelector(
+            `input[name="q${index}"]:checked`
+        );
+
+        const selectedIndex = selected ? Number(selected.value) : -1;
+        if (selectedIndex === item.answer) score++;
+    });
+
+    const percentage = Math.round(score / quizData.length * 100);
+    const name = document.getElementById("playerName").value.trim();
+
+    document.getElementById("quizSection").classList.add("hidden");
+    document.getElementById("result").classList.remove("hidden");
+
+    document.getElementById("playerGreeting").textContent =
+        `${name}, here are your results.`;
+
+    document.getElementById("finalScore").textContent =
+        `${score}/${quizData.length}`;
+
+    document.getElementById("percentage").textContent =
+        `${percentage}%`;
+
+    let feedback;
+    let message;
+
+    if (score === quizData.length) {
+        feedback = "CHIDERA'S PERSONAL BIOGRAPHER! 🏆";
+        message = "Perfect score! You know her inside out.";
+    } else if (score >= 18) {
+        feedback = "INNER CIRCLE ELITE 💜";
+        message = "You know Chidera exceptionally well!";
+    } else if (score >= 15) {
+        feedback = "CERTIFIED CLOSE FRIEND";
+        message = "Impressive, but a few details escaped you.";
+    } else if (score >= 10) {
+        feedback = "YOU KNOW A FEW THINGS!";
+        message = "There is still more to learn about Chidera.";
+    } else if (score >= 5) {
+        feedback = "ACQUAINTANCE LEVEL 😭";
+        message = "You need to pay closer attention!";
+    } else {
+        feedback = "WHO EVEN IS CHIDERA? 😭";
+        message = "The hard level won this round!";
+    }
+
+    document.getElementById("feedback").textContent = feedback;
+    document.getElementById("resultMessage").textContent = message;
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function confirmReset() {
+    if (confirm("Restart? Your answers will be lost.")) {
+        playAgain();
+    }
+}
+
+function playAgain() {
+    clearInterval(timerInterval);
+    submitted = false;
+
+    document.getElementById("quizSection").classList.add("hidden");
+    document.getElementById("result").classList.add("hidden");
+    document.getElementById("intro").classList.remove("hidden");
+
+    document.getElementById("playerName").value = "";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+</script>
+
+</body>
+</html>
